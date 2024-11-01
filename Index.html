@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Définit le type de document et la langue -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculator</title>
+  <!-- Feuille de styles principale -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Conteneur principal de la calculatrice -->
+  <div id="calculator">
+    
+    <!-- Conteneur pour l'affichage principal et l'historique -->
+    <div id="display-container">
+      <!-- Bouton pour basculer le panneau d'historique -->
+      <button id="history-toggle" onclick="toggleHistoryPanel()" class="list-menu-btn" role="button" aria-controls="history-panel" aria-expanded="false">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </button>
+
+      <!-- Affichage de l'historique des opérations -->
+      <span id="operation-history"></span>
+      <!-- Affichage principal (readonly pour empêcher l'édition directe) -->
+      <input type="text" id="display" readonly value="0">
+    </div>
+
+    <!-- Clavier de la calculatrice -->
+    <div id="keys">
+      <!-- Bouton Clear (AC ou Suppression) -->
+      <button onclick="clearOrDelete()" id="clear-btn" class="function-btn">
+        <span id="clear-text">AC</span>
+        <img src="./assets/clear-symbol.png" alt="Delete" id="clear-icon" class="icon" style="display: none;">
+      </button>
+      <!-- Bouton pour basculer entre positif/négatif -->
+      <button onclick="toggleSign()" class="function-btn">
+        <span class="plus-icon">+</span><span class="slash">/</span><span class="minus-icon">-</span>
+      </button>
+      <!-- Bouton pour le pourcentage -->
+      <button onclick="appendToDisplay('%')" class="function-btn">%</button>
+      <!-- Bouton pour la division -->
+      <button onclick="appendToDisplay('÷')" class="operator-btn">÷</button>
+
+      <!-- Boutons numériques et opérateurs principaux -->
+      <button onclick="appendToDisplay('7')">7</button>
+      <button onclick="appendToDisplay('8')">8</button>
+      <button onclick="appendToDisplay('9')">9</button>
+      <button onclick="appendToDisplay('×')" class="operator-btn">×</button>
+
+      <button onclick="appendToDisplay('4')">4</button>
+      <button onclick="appendToDisplay('5')">5</button>
+      <button onclick="appendToDisplay('6')">6</button>
+      <button onclick="appendToDisplay('-')" class="operator-btn">-</button>
+
+      <button onclick="appendToDisplay('1')">1</button>
+      <button onclick="appendToDisplay('2')">2</button>
+      <button onclick="appendToDisplay('3')">3</button>
+      <button onclick="appendToDisplay('+')" class="operator-btn">+</button>
+
+      <!-- Ligne inférieure avec l'icône de calculatrice, zéro, virgule et égal -->
+      <button onclick="openCalculatorApp()">
+        <img src="./assets/Calculator-Icon.png" alt="Calculator" class="icon">
+      </button>
+      
+      <!-- Pop-up de fonctionnalité et overlay -->
+      <div id="feature-popup" class="popup">
+        <p>Features coming soon</p>
+      </div>
+      <div id="overlay" class="overlay" onclick="closePopup()"></div>
+
+      <!-- Bouton zéro -->
+      <button onclick="appendToDisplay('0')">0</button>
+      <!-- Bouton virgule (pour décimales) -->
+      <button onclick="appendToDisplay(',')" >,</button>
+      <!-- Bouton égal pour exécuter le calcul -->
+      <button onclick="calculate()" class="operator-btn">=</button>
+    </div>
+
+    <!-- Panneau d'historique, placé dans les limites de la calculatrice -->
+    <div id="history-panel" aria-live="polite">
+      <h3 id="history-date">Today - DD/MM/YYYY</h3>
+      <ul id="history-list"></ul>
+    </div>
+    
+  </div>
+  <!-- Script principal de la calculatrice -->
+  <script src="script.js"></script>
+</body>
+</html>

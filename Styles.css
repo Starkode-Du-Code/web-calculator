@@ -1,0 +1,379 @@
+/* Basic Reset */
+body {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(to right, #1a1a1a, #333);
+}
+
+/* Conteneur de la calculatrice */
+#calculator {
+  position: relative;
+  font-family: Arial, sans-serif;
+  background-color: #000;
+  border-radius: 15px;
+  max-width: 320px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  padding: 5px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Section de l'affichage principal et historique */
+#display-container {
+  position: relative;
+  width: calc(100% - 20px);
+  background-color: #000;
+  padding: 8px 15px;
+  border-radius: 15px;
+  overflow: hidden;
+  text-align: right;
+  margin-left: -5px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+/* Historique des opérations dans le conteneur d'affichage */
+#operation-history {
+  position: absolute;
+  top: -10px;
+  right: 15px;
+  font-size: 1.2rem;
+  color: hsl(0, 0%, 50%);
+  pointer-events: none;
+  white-space: nowrap;
+  overflow-x: auto;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+/* Affichage principal */
+#display {
+  margin-top: 10px;
+  width: 100%;
+  height: 50px;
+  font-size: 48px;
+  color: white;
+  white-space: nowrap;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  text-align: right;
+  overflow-x: auto;
+  padding-top: 20px;
+}
+
+/* Effet de flou progressif lorsque le texte dépasse */
+#display.exceeded, #operation-history.exceeded {
+  mask-image: linear-gradient(to right, transparent, black 20%);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 20%);
+}
+
+#operation-history.exceeded::after,
+#display.exceeded::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 20px;
+  background: linear-gradient(to left, rgba(0, 0, 0, 0.8), transparent);
+  pointer-events: none;
+}
+
+/* Conteneur du pavé numérique */
+#keys {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  padding: 15px;
+  justify-items: center;
+}
+
+/* Styles des boutons de la calculatrice */
+button {
+  width: 70px;
+  height: 70px;
+  border-radius: 35px;
+  background-color: hsl(30, 9%, 10%);
+  color: white;
+  font-size: 1.8rem;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+}
+
+#display-container {
+  position: relative;
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+
+
+button:hover {
+  background-color: hsl(30, 9%, 20%);
+}
+
+button:active {
+  background-color: hsl(30, 9%, 25%);
+}
+
+/* Boutons fonctionnels (AC, +/- et %) */
+.function-btn {
+  background-color: hsl(30, 9%, 22%);
+  color: white;
+}
+
+.function-btn:hover {
+  background-color: hsl(30, 9%, 30%);
+}
+
+.function-btn:active {
+  background-color: hsl(30, 9%, 95%);
+}
+
+/* Boutons des opérateurs (+, -, ×, ÷, =) */
+.operator-btn {
+  background-color: hsl(35, 100%, 50%);
+  color: white;
+}
+
+.operator-btn:hover {
+  background-color: hsl(35, 100%, 60%);
+}
+
+.operator-btn:active {
+  background-color: hsl(35, 100%, 70%);
+}
+
+.operator-btn {
+  font-size: 2rem; /* Augmente la taille du signe */
+  line-height: 70px; /* Centre verticalement le signe dans le bouton */
+}
+
+.icon {
+  width: 40px;
+  height: 40px;
+  vertical-align: middle;
+  display: inline-block;
+}
+
+button .icon {
+  justify-content: center;
+  align-items: center;
+}
+
+.plus-icon {
+  font-size: 1.15rem;
+  position: relative;
+  top: -9px;
+  right: -5px;
+}
+
+.minus-icon {
+  font-size: 1.5rem;
+  position: relative;
+  top: -1px;
+  right: 4px;
+}
+
+.slash {
+  font-size: 1.9rem;
+  transform: rotate(10deg);
+  display: inline-block;
+  margin: 0 3px;
+}
+
+/* Applique une police proche de l'iPhone pour les chiffres */
+#display, #keys button {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-weight: 300;
+  letter-spacing: -0.5px;
+}
+
+/* Bouton menu hamburger stylisé comme trois lignes */
+#history-toggle {
+  position: absolute;
+  top: 0px;
+  left: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: center;
+  z-index: 10;
+  width: 35px;
+  height: 15px;
+  padding: 0;
+  overflow: hidden;
+}
+
+/* Fenêtre d'historique */
+#history-panel {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  max-height: 50%; /* Limite la hauteur du panneau pour permettre le défilement */
+  background-color: rgba(50, 50, 50, 0.9);
+  color: white;
+  overflow-y: auto; /* Active le défilement vertical */
+  display: none;
+  padding: 15px;
+  box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.4);
+  border-radius: 0 0 15px 15px;
+  z-index: 1;
+  transform: translateY(100%);
+  transition: transform 0.8s ease, height 0.6s ease;
+}
+
+#history-panel.show {
+  display: block;
+  height: 50%;
+  transform: translateY(0);
+}
+
+#history-panel.slide-in {
+  top: 50%;
+}
+
+#history-panel.expand {
+  height: 90%;
+  border-radius: 15px;
+}
+
+#history-panel h3 {
+  font-size: 0.8rem;
+  color: #bbb;
+  text-align: left;
+  margin: 0 0 10px 0;
+}
+
+#history-date {
+  font-size: 0.8rem;
+  color: #ddd;
+  text-align: left;
+  margin-bottom: 10px;
+}
+
+#history-list {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0 0;
+}
+
+#history-list li {
+  font-size: 1rem;
+  color: white;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  padding: 10px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.2); /* Ligne de séparation */
+}
+
+#history-list .operation {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 0.8rem;
+  margin-bottom: 5px;
+}
+
+#history-list .result {
+  font-weight: bold;
+  font-size: 1rem;
+  color: white;
+  margin-top: 5px;
+}
+
+
+
+#history-list li:last-child {
+  border-bottom: none; /* Retire le trait pour le dernier élément */
+}
+
+
+/* Style pour les lignes du bouton liste */
+#history-toggle .line {
+  width: 20px;
+  height: 3px;
+  background-color: hsl(35, 100%, 55%);
+  border-radius: 2px;
+  margin: 0 auto;
+}
+
+#history-toggle:hover .line {
+  background-color: hsl(35, 100%, 65%);
+}
+
+#operation-history {
+  margin-top: 30px;
+  white-space: nowrap;
+  overflow-x: auto;
+  text-overflow: ellipsis;
+}
+
+
+
+
+.button-popup-container {
+  position: relative;
+}
+
+.popup {
+  display: none;
+  position: absolute; /* Pour positionner par rapport à la calculatrice */
+  bottom: 20px; /* Ajustez pour descendre le pop-up */
+  left: 20px; /* Ajustez pour le rapprocher du bouton */
+  width: 200px;
+  padding: 20px;
+  background-color: #333;
+  color: white;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  transform: scale(0.9); /* Légère réduction initiale pour effet d'animation */
+  opacity: 0; /* Initialement transparent */
+  transition: opacity 0.3s ease, transform 0.3s ease; /* Transition douce */
+}
+
+.popup.show {
+  opacity: 1; /* Montre le pop-up */
+  transform: scale(1); /* Effet de zoom */
+}
+
+
+
+
+#calculator.dimmed {
+  opacity: 0.4; /* Réduit la visibilité pour créer un effet d'assombrissement */
+  transition: opacity 0.3s ease; /* Transition pour un effet fluide */
+}
+
+
+/* Overlay sombre pour l'arrière-plan */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: -1; /* Démarre en arrière-plan */
+  display: none; /* Caché par défaut */
+  pointer-events: none; /* Par défaut, aucune interaction */
+}
