@@ -54,6 +54,27 @@ function appendToDisplay(input) {
       return;
   }
 
+  if (isResultDisplayed) {
+    if (!isOperatorOrPercent(input)) {
+        display.value = input; // Commence une nouvelle opération avec le chiffre saisi
+    } else {
+        display.value = lastResult + input; // Utilise le dernier résultat et ajoute l'opérateur
+    }
+    operationHistory.textContent = ''; // Efface l'opération précédente
+    isNewOperation = false;
+    isResultDisplayed = false;
+    return;
+}
+
+  // Efface l'opération précédente si un chiffre est tapé après un résultat affiché
+  if (isResultDisplayed && !isOperatorOrPercent(input)) {
+    display.value = input;
+    operationHistory.textContent = ''; // Efface l'opération précédente
+    isNewOperation = false;
+    isResultDisplayed = false;
+    return;
+}
+
   // Si un opérateur est pressé après un calcul, utilise le dernier résultat et ajoute l'opérateur
   if (isResultDisplayed && isOperatorOrPercent(input)) {
       display.value = lastResult + input;
